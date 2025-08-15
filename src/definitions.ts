@@ -1,3 +1,5 @@
 export interface CapHogPlugin {
-  echo(options: { value: string }): Promise<{ value: string }>;
+  init(config: { projectId: string }): Promise<void>;
+
+  logEvent(eventName: string, payload: Record<string, any>): Promise<void>;
 }
