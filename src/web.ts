@@ -22,6 +22,7 @@ export class CapHogWeb extends WebPlugin implements CapHogPlugin {
       body: JSON.stringify({
         eventName: eventName,
         projectId: this.projectId,
+        timestamp: Date.now(),
         customPayload: payload,
       })
     });
