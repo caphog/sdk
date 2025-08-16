@@ -13,25 +13,48 @@ npx cap sync
 
 <docgen-index>
 
-* [`echo(...)`](#echo)
+* [`initialize(...)`](#initialize)
+* [`logEvent(...)`](#logevent)
+* [Type Aliases](#type-aliases)
 
 </docgen-index>
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### echo(...)
+### initialize(...)
 
 ```typescript
-echo(options: { value: string; }) => Promise<{ value: string; }>
+initialize(config: { projectId: string; }) => Promise<void>
 ```
 
-| Param         | Type                            |
-| ------------- | ------------------------------- |
-| **`options`** | <code>{ value: string; }</code> |
-
-**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+| Param        | Type                                |
+| ------------ | ----------------------------------- |
+| **`config`** | <code>{ projectId: string; }</code> |
 
 --------------------
+
+
+### logEvent(...)
+
+```typescript
+logEvent(data: { eventName: string; payload?: Record<string, any>; }) => Promise<void>
+```
+
+| Param      | Type                                                                                           |
+| ---------- | ---------------------------------------------------------------------------------------------- |
+| **`data`** | <code>{ eventName: string; payload?: <a href="#record">Record</a>&lt;string, any&gt;; }</code> |
+
+--------------------
+
+
+### Type Aliases
+
+
+#### Record
+
+Construct a type with a set of properties K of type T
+
+<code>{ [P in K]: T; }</code>
 
 </docgen-api>

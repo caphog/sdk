@@ -9,21 +9,20 @@ export class CapHogWeb extends WebPlugin implements CapHogPlugin {
     this.projectId = config.projectId;
   }
 
-  async logEvent(eventName: string, payload: Record<string, any>): Promise<void> {
+  async logEvent(data: { eventName: string, payload?: Record<string, any> }): Promise<void> {
     if (!this.projectId) {
       throw new Error('CapHog not initialized. Call initialize() with projectId first.');
     }
-    console.log(`Logging event: ${eventName}`, payload);
     const response = await fetch(`https://caphog.com/api/v1/event-entries`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        eventName: eventName,
+        eventName: data.eventName,
         projectId: this.projectId,
         timestamp: Date.now(),
-        customPayload: payload,
+        customPayload: data.payload,
       })
     });
 
