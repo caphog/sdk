@@ -8,7 +8,13 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 @CapacitorPlugin(name = "CapHog")
 public class CapHogPlugin extends Plugin {
 
-    private CapHog implementation = new CapHog();
+    private CapHog implementation;
+
+    @Override
+    public void load() {
+        super.load();
+        implementation = new CapHog(this);
+    }
 
     @PluginMethod
     public void initialize(PluginCall call) {
