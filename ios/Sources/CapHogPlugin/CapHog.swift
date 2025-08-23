@@ -50,7 +50,11 @@ import Foundation
             "customPayload": payload as Any
         ]
         do {
+            #if DEBUG
             let jsonData = try JSONSerialization.data(withJSONObject: body, options: [.prettyPrinted])
+            #else
+            let jsonData = try JSONSerialization.data(withJSONObject: body, options: [])
+            #endif
             if let jsonString = String(data: jsonData, encoding: .utf8) {
                 print("[CapHog] Sending event JSON: \n\(jsonString)")
             }
