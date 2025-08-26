@@ -39,12 +39,13 @@ export class CapHogWeb extends WebPlugin implements CapHogPlugin {
     browser: string | null;
   } {
     // Use userAgentData if available, fallback to userAgent and platform
+    const userAgentData = (navigator as any).userAgentData;
     let operatingSystem: string | null = null;
     let browser: string | null = null;
 
     // OS detection
-    if ((navigator as any).userAgentData && (navigator as any).userAgentData.platform) {
-      const platform = (navigator as any).userAgentData.platform.toLowerCase();
+    if (userAgentData && userAgentData.platform) {
+      const platform = userAgentData.platform.toLowerCase();
       if (platform.includes('win')) {
         operatingSystem = 'windows';
       } else if (platform.includes('mac')) {
