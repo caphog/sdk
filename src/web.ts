@@ -38,32 +38,98 @@ export class CapHogWeb extends WebPlugin implements CapHogPlugin {
     operatingSystem: string | null;
     browser: string | null;
   } {
-    const userAgent = navigator.userAgent.toLowerCase();
+    // Use userAgentData if available, fallback to userAgent and platform
     let operatingSystem: string | null = null;
-    if (userAgent.includes('iphone') || userAgent.includes('ipad') || userAgent.includes('ipod')) {
-      operatingSystem = 'ios';
-    } else if (userAgent.includes('android')) {
-      operatingSystem = 'android';
-    } else if (userAgent.includes('windows')) {
-      operatingSystem = 'windows';
-    } else if (userAgent.includes('mac')) {
-      operatingSystem = 'macos';
-    } else if (userAgent.includes('linux')) {
-      operatingSystem = 'linux';
+    let browser: string | null = null;
+
+    // OS detection
+    if ((navigator as any).userAgentData && (navigator as any).userAgentData.platform) {
+      const platform = (navigator as any).userAgentData.platform.toLowerCase();
+      if (platform.includes('win')) {
+        operatingSystem = 'windows';
+      } else if (platform.includes('mac')) {
+        operatingSystem = 'macos';
+      } else if (platform.includes('linux')) {
+        operatingSystem = 'linux';
+      } else if (platform.includes('android')) {
+        operatingSystem = 'android';
+      } else if (platform.includes('ios')) {
+        operatingSystem = 'ios';
+      } else {
+        operatingSystem = platform;
+      }
+    } else if (navigator.platform) {
+      const platform = navigator.platform.toLowerCase();
+      if (platform.includes('win')) {
+        operatingSystem = 'windows';
+      } else if (platform.includes('mac')) {
+        operatingSystem = 'macos';
+      } else if (platform.includes('linux')) {
+        operatingSystem = 'linux';
+      } else if (platform.includes('android')) {
+        operatingSystem = 'android';
+      } else if (platform.includes('iphone') || platform.includes('ipad') || platform.includes('ipod')) {
+        operatingSystem = 'ios';
+      } else {
+        operatingSystem = platform;
+      }
+    } else {
+      // fallback to userAgent
+      const userAgent = navigator.userAgent.toLowerCase();
+      if (userAgent.includes('iphone') || userAgent.includes('ipad') || userAgent.includes('ipod')) {
+        operatingSystem = 'ios';
+      } else if (userAgent.includes('android')) {
+        operatingSystem = 'android';
+      } else if (userAgent.includes('windows')) {
+        operatingSystem = 'windows';
+      } else if (userAgent.includes('mac')) {
+        operatingSystem = 'macos';
+      } else if (userAgent.includes('linux')) {
+        operatingSystem = 'linux';
+      }
     }
 
-    // Detect browser type and version
-    let browser: string | null = null;
-    if (userAgent.includes('edg/')) {
-      browser = 'edge';
-    } else if (userAgent.includes('chrome') && !userAgent.includes('edg/')) {
-      browser = 'chrome';
-    } else if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
-      browser = 'safari';
-    } else if (userAgent.includes('firefox')) {
-      browser = 'firefox';
-    } else if (userAgent.includes('opr/') || userAgent.includes('opera')) {
-      browser = 'opera';
+    // Browser detection
+    if ((navigator as any).userAgentData && Array.isArray((navigator as any).userAgentData.brands)) {
+      const brands = (navigator as any).userAgentData.brands;
+      // brands is an array of {brand, version}
+      // Try to find a known browser
+      for (const b of brands) {
+        const brand = b.brand.toLowerCase();
+        if (brand.includes('edge')) {
+          browser = 'edge';
+          break;
+        } else if (brand.includes('chrome')) {
+          browser = 'chrome';
+          break;
+        } else if (brand.includes('safari')) {
+          browser = 'safari';
+          break;
+        } else if (brand.includes('firefox')) {
+          browser = 'firefox';
+          break;
+        } else if (brand.includes('opera')) {
+          browser = 'opera';
+          break;
+        }
+      }
+      if (!browser && brands.length > 0) {
+        browser = brands[0].brand.toLowerCase();
+      }
+    } else {
+      // fallback to userAgent
+      const userAgent = navigator.userAgent.toLowerCase();
+      if (userAgent.includes('edg/')) {
+        browser = 'edge';
+      } else if (userAgent.includes('chrome') && !userAgent.includes('edg/')) {
+        browser = 'chrome';
+      } else if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
+        browser = 'safari';
+      } else if (userAgent.includes('firefox')) {
+        browser = 'firefox';
+      } else if (userAgent.includes('opr/') || userAgent.includes('opera')) {
+        browser = 'opera';
+      }
     }
 
     return {
