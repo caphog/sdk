@@ -58,6 +58,7 @@ export class CapHogWeb extends WebPlugin implements CapHogPlugin {
       } else {
         operatingSystem = platform;
       }
+    // navigator.platform is deprecated, but used here as a fallback for older browsers that do not support userAgentData.
     } else if (navigator.platform) {
       const platform = navigator.platform.toLowerCase();
       if (platform.includes('win')) {
