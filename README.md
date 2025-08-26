@@ -1,5 +1,7 @@
 # @caphog/sdk
 
+[![NPM Downloads](https://img.shields.io/npm/dm/%40caphog%2Fsdk)](https://www.npmjs.com/package/@caphog/sdk)
+
 Analytics for your Capacitor app
 
 ## Install
