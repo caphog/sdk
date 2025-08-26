@@ -54,15 +54,15 @@ public class CapHog {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("Send analytics event", "Request failed", e);
+                Log.e("logEvent", "Request failed", e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
-                    Log.e("Send analytics event", "Event was not sent due to an error: " + response.body().string());
+                    Log.e("logEvent", "Event was not sent due to an error: " + response.body().string());
                 } else {
-                    Log.i("Send analytics event", "Event successfully sent");
+                    Log.i("logEvent", "Event successfully sent");
                 }
             }
         });
@@ -79,7 +79,7 @@ public class CapHog {
             data.put("app", buildAppData());
             data.put("customPayload", payload);
         } catch (Exception e) {
-            Log.i("CapHog", "Error retrieving device details");
+            Log.i("getEventData", "Error retrieving device details");
         }
         return data;
     }
@@ -91,7 +91,7 @@ public class CapHog {
             device.put("operatingSystemVersion", android.os.Build.VERSION.RELEASE); // TODO String.valueOf(Build.VERSION.SDK_INT)
             device.put("phoneModel", android.os.Build.MODEL);
         } catch (Exception e) {
-            Log.i("CapHog", "Error building device info");
+            Log.i("buildDeviceData", "Error building device info");
         }
         return device;
     }
@@ -112,7 +112,7 @@ public class CapHog {
                 app.put("versionCode", String.valueOf(pInfo.versionCode));
             }
         } catch (Exception e) {
-            Log.e("CapHog", "Error building app info", e);
+            Log.e("buildAppData", "Error building app info", e);
             app.put("packageName", JSONObject.NULL);
             app.put("versionName", JSONObject.NULL);
             app.put("versionCode", JSONObject.NULL);
