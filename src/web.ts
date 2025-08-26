@@ -38,13 +38,12 @@ export class CapHogWeb extends WebPlugin implements CapHogPlugin {
     operatingSystem: string | null;
     browser: string | null;
   } {
-    // Use userAgentData if available, fallback to userAgent and platform
     const userAgentData = (navigator as any).userAgentData;
     let operatingSystem: string | null = null;
     let browser: string | null = null;
 
     // OS detection
-    if (userAgentData && userAgentData.platform) {
+    if (userAgentData?.platform) {
       const platform = userAgentData.platform.toLowerCase();
       if (platform.includes('win')) {
         operatingSystem = 'windows';
@@ -92,10 +91,8 @@ export class CapHogWeb extends WebPlugin implements CapHogPlugin {
     }
 
     // Browser detection
-    if ((navigator as any).userAgentData && Array.isArray((navigator as any).userAgentData.brands)) {
-      const brands = (navigator as any).userAgentData.brands;
-      // brands is an array of {brand, version}
-      // Try to find a known browser
+    if (userAgentData && Array.isArray(userAgentData.brands)) {
+      const brands: {brand: string, version: string }[] = userAgentData.brands;
       for (const b of brands) {
         const brand = b.brand.toLowerCase();
         if (brand.includes('edge')) {
