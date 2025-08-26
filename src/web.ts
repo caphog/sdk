@@ -92,7 +92,7 @@ export class CapHogWeb extends WebPlugin implements CapHogPlugin {
 
     // Browser detection
     if (userAgentData && Array.isArray(userAgentData.brands)) {
-      const brands: {brand: string, version: string }[] = userAgentData.brands;
+      const brands: {brand: string}[] = userAgentData.brands;
       for (const b of brands) {
         const brand = b.brand.toLowerCase();
         if (brand.includes('edge')) {
@@ -118,9 +118,9 @@ export class CapHogWeb extends WebPlugin implements CapHogPlugin {
     } else {
       // fallback to userAgent
       const userAgent = navigator.userAgent.toLowerCase();
-      if (userAgent.includes('edg/')) {
+      if (userAgent.includes('edg/') || userAgent.includes('edge')) {
         browser = 'edge';
-      } else if (userAgent.includes('chrome') && !userAgent.includes('edg/')) {
+      } else if (userAgent.includes('chrome') && !userAgent.includes('edg/') && !userAgent.includes('edge')) {
         browser = 'chrome';
       } else if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
         browser = 'safari';
