@@ -56,7 +56,7 @@ export class CapHogWeb extends WebPlugin implements CapHogPlugin {
       } else if (platform.includes('ios')) {
         operatingSystem = 'ios';
       }
-    // navigator.platform is deprecated, but used here as a fallback for older browsers that do not support userAgentData.
+    // navigator.platform is deprecated, but used here as a fallback for older browsers that do not support userAgentData
     } else if (navigator.platform) {
       const platform = navigator.platform.toLowerCase();
       if (platform.includes('win')) {
@@ -93,14 +93,19 @@ export class CapHogWeb extends WebPlugin implements CapHogPlugin {
         const brand = b.brand.toLowerCase();
         if (brand.includes('edge')) {
           browser = 'edge';
-        } else if (brand.includes('chrome')) {
-          browser = 'chrome';
-        } else if (brand.includes('safari')) {
-          browser = 'safari';
-        } else if (brand.includes('firefox')) {
-          browser = 'firefox';
+          break;
         } else if (brand.includes('opera')) {
           browser = 'opera';
+          break;
+        } else if (brand.includes('chrome')) {
+          browser = 'chrome';
+          break;
+        } else if (brand.includes('firefox')) {
+          browser = 'firefox';
+          break;
+        } else if (brand.includes('safari')) {
+          browser = 'safari';
+          break;
         }
       }
     } else {
